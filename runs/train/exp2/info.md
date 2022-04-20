@@ -1,0 +1,1 @@
+- Trained in google collab, 20 batch, 100 epochs, with the version 6 of our dataset, using yolov5m.pt
