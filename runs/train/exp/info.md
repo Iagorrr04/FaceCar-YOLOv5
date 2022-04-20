@@ -1,0 +1,1 @@
+- Trained using gogogle collab at 32 batchs, 100 epochs, yolov5s.pt, and the version 3 of our dataset.e
