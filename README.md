@@ -60,8 +60,9 @@ python3 facecar.py --img 640 --weights runs/train/exp2/weights/best.pt --source 
 ```
 
 <h3>Or try it at Google Collab ! <img></img></h3>
+<div align="center"><span>🚧 Not done yet 🚧</span></div>
 <div align="center">
-    <a href="">
+    <a href="https://github.com/Iagorrr04/FaceCar-YOLOv5">
         <img src="https://github.com/Iagorrr04/FaceCar-YOLOv5/blob/master/images/logo-colab-small.png" width="15%"/>
     </a>
 </div>
