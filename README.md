@@ -2,7 +2,9 @@
 
 <p align="center">    The FaceCar project was created during the discpline of TEES (Specials Topics about Software Engineering), given by the teacher Giovanni Almeida Santos at the University of Brasília - FGA, by the software engineering students <a href="https://github.com/Iagorrr04">Iago Rocha</a>, and <a href="https://github.com/JoseFilipi">José Filipi.</a></p>
 
-<img src="https://github.com/Iagorrr04/FaceCar-YOLOv5/blob/master/images/unb_logo.png" align="center" width="15%">
+<div>
+<img src="https://github.com/Iagorrr04/FaceCar-YOLOv5/blob/master/images/unb_logo.png"  width="20%">
+</div>
 
 <p align="center">    Our main goal is to simulate an app or program that could prevent the driver to fall sleep, or keep driving in several fadigue, tiredness, drosy and any related state that could induce a possibly traffic accident. Using the <a href="https://github.com/ultralytics/yolov5">YOLOv5</a> and python algorithms to detect the driver state and take the due actions to reach this goal.</p>
 
