@@ -89,6 +89,7 @@ def run(
     # Run inference
     model.warmup(imgsz=(1 if pt else bs, 3, *imgsz))  # warmup
     dt, seen = [0.0, 0.0, 0.0], 0
+    closedEyesFrames = 0
     for path, im, im0s, vid_cap, s in dataset:
         t1 = time_sync()
         im = torch.from_numpy(im).to(device)
@@ -113,6 +114,7 @@ def run(
         # pred = utils.general.apply_classifier(pred, classifier_model, im, im0s)
 
         # Process predictions
+
         for i, det in enumerate(pred):  # per image
             seen += 1
             if webcam:  # batch_size >= 1
@@ -130,18 +132,28 @@ def run(
             annotator = Annotator(im0, line_width=line_thickness, example=str(names))
 
 
+           
             if len(det):
                 # Rescale boxes from img_size to im0 size
                 det[:, :4] = scale_coords(im.shape[2:], det[:, :4], im0.shape).round()
 
                 # Print results, and check the state.
-                totalClosedEye = 0
                 for c in det[:, -1].unique():
                     n = (det[:, -1] == c).sum()  # detections per class        
                     s += f"{n} {names[int(c)]}, "  # add to string containing the name of objects detected.
+
+                    # Closed eyes for too long
+                    
                     if(names[int(c)] == "close_eye" and n >= 2):
-                        s += f"\n PLEASE OPEN YOUR EYES \n"
+                        # s += f"\n PLEASE OPEN YOUR EYES \n"
+                        closedEyesFrames += 1
+                    elif (names[int(c)] == "open_eye" or (names[int(c)] == "close_eye" and n < 2)):
+                        closedEyesFrames = 0
+
+                    if(closedEyesFrames >= 4):
                         playsound("data/sounds/close_eye_beep.wav")
+            
+
 
 
                 # Write results
@@ -158,7 +170,8 @@ def run(
                         annotator.box_label(xyxy, label, color=colors(c, True))
                         if save_crop:
                             save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
-
+            else:
+                closedEyesFrames = 0
             # Stream results
             im0 = annotator.result()
             if view_img:
@@ -185,7 +198,7 @@ def run(
                     vid_writer[i].write(im0)
 
         # Print time (inference-only)
-        LOGGER.info(f'{s}Done. ({t3 - t2:.3f}s).')
+        LOGGER.info(f'{s}Done. ({t3 - t2:.3f}s). Closed eyes frames: {closedEyesFrames}')
 
     # Print results
     t = tuple(x / seen * 1E3 for x in dt)  # speeds per image
