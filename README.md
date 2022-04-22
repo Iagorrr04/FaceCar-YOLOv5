@@ -2,7 +2,7 @@
 
 <p align="center">    The FaceCar project was created during the discpline of TEES (Specials Topics about Software Engineering), given by the teacher Giovanni Almeida Santos at the University of Brasília - FGA, by the software engineering students <a href="https://github.com/Iagorrr04">Iago Rocha</a>, and <a href="https://github.com/JoseFilipi">José Filipi.</a></p>
 
-<div>
+<div align="center">
 <img src="https://github.com/Iagorrr04/FaceCar-YOLOv5/blob/master/images/unb_logo.png"  width="20%">
 </div>
 
