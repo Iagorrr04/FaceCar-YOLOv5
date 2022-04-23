@@ -56,7 +56,7 @@ cd FaceCar-YOLOv5
 pip install -r requirements.txt
 
 # Run the algorithm !
-python3 facecar.py --img 640 --weights runs/train/exp2/weights/best.pt --source 0 --conf 0.9 --hide-conf --line-thickness 1 --max-det 10
+python3 facecar.py --img 640 --weights runs/train/exp3/weights/best.pt --source 0 --conf 0.9 --hide-conf --line-thickness 1 --max-det 10
 ```
 
 <h3>Or try it at Google Collab ! <img></img></h3>
