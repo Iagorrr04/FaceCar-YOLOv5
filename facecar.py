@@ -1,6 +1,6 @@
 # YOLOv5 🚀 by Ultralytics, GPL-3.0 license
 # FaceCar version for the YOLOv5 detection algorithm
-# python3 facecar.py --img 640 --weights runs/train/exp2/weights/best.pt --source 0 --conf 0.9 --hide-conf --line-thickness 1 --max-det 10
+# python3 facecar.py --img 640 --weights runs/train/exp3/weights/best.pt --source 0 --conf 0.9 --hide-conf --line-thickness 1 --max-det 10 --facecar
 
 # Imports
 import argparse
@@ -56,6 +56,7 @@ def run(
         hide_conf=False,  # hide confidences
         half=False,  # use FP16 half-precision inference
         dnn=False,  # use OpenCV DNN for ONNX inference
+        facecar=False,
 ):
     source = str(source)
     save_img = not nosave and not source.endswith('.txt')  # save inference images
@@ -89,7 +90,7 @@ def run(
     # Run inference
     model.warmup(imgsz=(1 if pt else bs, 3, *imgsz))  # warmup
     dt, seen = [0.0, 0.0, 0.0], 0
-    closedEyesFrames = 0
+    closedEyesFrames = 0 # must be declared here to work.
     for path, im, im0s, vid_cap, s in dataset:
         t1 = time_sync()
         im = torch.from_numpy(im).to(device)
@@ -114,7 +115,6 @@ def run(
         # pred = utils.general.apply_classifier(pred, classifier_model, im, im0s)
 
         # Process predictions
-
         for i, det in enumerate(pred):  # per image
             seen += 1
             if webcam:  # batch_size >= 1
@@ -142,16 +142,16 @@ def run(
                     n = (det[:, -1] == c).sum()  # detections per class        
                     s += f"{n} {names[int(c)]}, "  # add to string containing the name of objects detected.
 
-                    
-                    # Closed eyes for too long
-                    if(names[int(c)] == "close_eye" and n >= 2):
-                        # s += f"\n PLEASE OPEN YOUR EYES \n"
-                        closedEyesFrames += 1
-                        if(closedEyesFrames >= 4):
-                            # closedEyesFrames = 0
-                            playsound("data/sounds/close_eye_beep_cut.mp3")
-                    elif (names[int(c)] == "open_eye" or (names[int(c)] == "close_eye" and n < 2)):
-                        closedEyesFrames = 0
+                    if(facecar):
+                        # Closed eyes for too long
+                        if(names[int(c)] == "close_eye" and n >= 2):
+                            # s += f"\n PLEASE OPEN YOUR EYES \n"
+                            closedEyesFrames += 1
+                            if(closedEyesFrames >= 4):
+                                # closedEyesFrames = 0
+                                playsound("data/sounds/close_eye_beep_cut.mp3")
+                        elif (names[int(c)] == "open_eye" or (names[int(c)] == "close_eye" and n < 2)):
+                            closedEyesFrames = 0
 
                     
             
@@ -240,6 +240,7 @@ def parse_opt():
     parser.add_argument('--hide-conf', default=False, action='store_true', help='hide confidences')
     parser.add_argument('--half', action='store_true', help='use FP16 half-precision inference')
     parser.add_argument('--dnn', action='store_true', help='use OpenCV DNN for ONNX inference')
+    parser.add_argument('--facecar', action='store_true', help='Enable the facecar options.')
     opt = parser.parse_args()
     opt.imgsz *= 2 if len(opt.imgsz) == 1 else 1  # expand
     print_args(vars(opt))
