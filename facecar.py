@@ -142,16 +142,18 @@ def run(
                     n = (det[:, -1] == c).sum()  # detections per class        
                     s += f"{n} {names[int(c)]}, "  # add to string containing the name of objects detected.
 
-                    # Closed eyes for too long
                     
+                    # Closed eyes for too long
                     if(names[int(c)] == "close_eye" and n >= 2):
                         # s += f"\n PLEASE OPEN YOUR EYES \n"
                         closedEyesFrames += 1
+                        if(closedEyesFrames >= 4):
+                            # closedEyesFrames = 0
+                            playsound("data/sounds/close_eye_beep_cut.mp3")
                     elif (names[int(c)] == "open_eye" or (names[int(c)] == "close_eye" and n < 2)):
                         closedEyesFrames = 0
 
-                    if(closedEyesFrames >= 4):
-                        playsound("data/sounds/close_eye_beep.wav")
+                    
             
 
 
