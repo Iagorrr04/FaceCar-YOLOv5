@@ -27,6 +27,7 @@
 storage.googleapis.com
 # runs/*
 # data/*
+runs/detect
 data/images/*
 !data/*.yaml
 !data/hyps
