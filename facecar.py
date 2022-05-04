@@ -97,6 +97,7 @@ def run(
     dt, seen = [0.0, 0.0, 0.0], 0
     closedEyesFrames = 0 # must be declared here to work.
     drowsyDegree = 50
+    beepSounds = { "low" : "high_pich_beep.mp3", "medium" : "buzzer_medium_beep.mp3", "high" : "buzzer_low_beep.mp3"}
     for path, im, im0s, vid_cap, s in dataset:
         t1 = time_sync()
         im = torch.from_numpy(im).to(device)
@@ -167,6 +168,15 @@ def run(
                                 drowsyDegree += 1
                                 if(drowsyDegree > 100):
                                     drowsyDegree = 100
+
+                                # Sound alert if drowsy for too long.
+                                if(drowsyDegree == 100):
+                                    playsound("data/sounds/"+beepSounds['high'])
+                                elif(drowsyDegree == 75):
+                                    playsound("data/sounds/"+beepSounds['medium'])
+                                elif(drowsyDegree == 50):
+                                    playsound("data/sounds/"+beepSounds['low'])
+
                             elif(names[int(c)] == "awake"):
                                 drowsyDegree -= 1
                                 if(drowsyDegree < 0):
