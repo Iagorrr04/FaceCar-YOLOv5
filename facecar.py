@@ -176,6 +176,7 @@ def run(
                                 # closedEyesFrames = 0
                                 if(closedEyesFrames / 4 >= 4):
                                     stateConfirm(critical="closedEye")
+                                    closedEyesFrames = 0
                                 else:
                                     playsound("data/sounds/close_eye_beep_cut.mp3")
                         elif (names[int(c)] == "open_eye"):
@@ -188,10 +189,9 @@ def run(
 
                                 # Sound alert if drowsy for too long.
                                 if(drowsyDegree == 100):
-                                    playsound("data/sounds/"+beepSounds['high'])
-                                    severeDrowsyPoints += 1
-                                    if(severeDrowsyPoints >= 4):
-                                        stateConfirm(critical="drowsy")
+                                    stateConfirm(critical="drowsy")
+                                    drowsyDegree = 0
+                            
                                 elif(drowsyDegree == 75):
                                     playsound("data/sounds/"+beepSounds['medium'])
                                 elif(drowsyDegree == 50):
