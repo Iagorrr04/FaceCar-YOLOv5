@@ -1,6 +1,11 @@
-# YOLOv5 🚀 by Ultralytics, GPL-3.0 license
-# FaceCar version for the YOLOv5 detection algorithm
-# python3 facecar.py --img 640 --weights runs/train/exp3/weights/best.pt --source 0 --conf 0.9 --hide-conf --line-thickness 1 --max-det 10 --facecar
+"""
+    YOLOv5 🚀 by Ultralytics, GPL-3.0 license
+    FaceCar version for the YOLOv5 detection algorithm
+    Using medium model:
+        python3 facecar.py --img 640 --weights runs/train/medium/weights/best.pt --source 0 --conf 0.87 --hide-conf --line-thickness 1 --max-det 10 --facecar
+    Using small model:
+        python3 facecar.py --img 640 --weights runs/train/small/weights/best.pt --source 0 --conf 0.821 --hide-conf --line-thickness 1 --max-det 10 --facecar
+"""
 
 # Imports
 import argparse
@@ -91,6 +96,7 @@ def run(
     model.warmup(imgsz=(1 if pt else bs, 3, *imgsz))  # warmup
     dt, seen = [0.0, 0.0, 0.0], 0
     closedEyesFrames = 0 # must be declared here to work.
+    drowsyDegree = 50
     for path, im, im0s, vid_cap, s in dataset:
         t1 = time_sync()
         im = torch.from_numpy(im).to(device)
@@ -142,19 +148,29 @@ def run(
                     n = (det[:, -1] == c).sum()  # detections per class        
                     s += f"{n} {names[int(c)]}, "  # add to string containing the name of objects detected.
 
+
+                    # facecar secure mesures.
                     if(facecar):
+
                         # Closed eyes for too long
                         if(names[int(c)] == "close_eye" and n >= 2):
-                            # s += f"\n PLEASE OPEN YOUR EYES \n"
                             closedEyesFrames += 1
-                            if(closedEyesFrames >= 4):
+
+                            # Sound alert
+                            if((closedEyesFrames % 4 == 0) and (closedEyesFrames >= 4)):
                                 # closedEyesFrames = 0
                                 playsound("data/sounds/close_eye_beep_cut.mp3")
-                        elif (names[int(c)] == "open_eye" or (names[int(c)] == "close_eye" and n < 2)):
+                        elif (names[int(c)] == "open_eye"):
                             closedEyesFrames = 0
-
-                    
-            
+                        else:
+                            if(names[int(c)] == "drowsy"):
+                                drowsyDegree += 1
+                                if(drowsyDegree > 100):
+                                    drowsyDegree = 100
+                            elif(names[int(c)] == "awake"):
+                                drowsyDegree -= 1
+                                if(drowsyDegree < 0):
+                                    drowsyDegree = 0
 
 
 
@@ -200,7 +216,7 @@ def run(
                     vid_writer[i].write(im0)
 
         # Print time (inference-only)
-        LOGGER.info(f'{s}Done. ({t3 - t2:.3f}s). Closed eyes frames: {closedEyesFrames}')
+        LOGGER.info(f'{s}Done. Closed eyes frames: {closedEyesFrames}. drowsyDegree: {drowsyDegree}. ({t3 - t2:.3f}s).')
 
     # Print results
     t = tuple(x / seen * 1E3 for x in dt)  # speeds per image
