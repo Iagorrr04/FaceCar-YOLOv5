@@ -9,12 +9,17 @@
 
 # Imports
 import argparse
+from doctest import master
+from logging import critical
+from multiprocessing.connection import wait
 import os
 import sys
 from pathlib import Path
 from pytz import country_timezones
 
 from playsound import playsound # Beeps sounds and alerts.
+from tkinter import messagebox
+
 
 import torch
 import torch.backends.cudnn as cudnn
@@ -32,6 +37,14 @@ from utils.general import (LOGGER, check_file, check_img_size, check_imshow, che
 from utils.plots import Annotator, colors, save_one_box
 from utils.torch_utils import select_device, time_sync
 
+
+# Function to ask for a confirmation of the user state.
+def confirmationDone():
+    return False
+
+def stateConfirm(critical):
+    playsound("data/sounds/continuous_beep_"+critical+".mp3")
+    messagebox.askretrycancel(title='FaceCar - Confirmation', message='You are not able to drive !', detail='do you agree ?', icon='warning', type='ok')
 
 @torch.no_grad()
 def run(
@@ -161,7 +174,10 @@ def run(
                             # Sound alert
                             if((closedEyesFrames % 4 == 0) and (closedEyesFrames >= 4)):
                                 # closedEyesFrames = 0
-                                playsound("data/sounds/close_eye_beep_cut.mp3")
+                                if(closedEyesFrames / 4 >= 4):
+                                    stateConfirm(critical="closedEye")
+                                else:
+                                    playsound("data/sounds/close_eye_beep_cut.mp3")
                         elif (names[int(c)] == "open_eye"):
                             closedEyesFrames = 0
                         else:
@@ -175,8 +191,7 @@ def run(
                                     playsound("data/sounds/"+beepSounds['high'])
                                     severeDrowsyPoints += 1
                                     if(severeDrowsyPoints >= 4):
-                                        print("You are not in conditions to drive, pleae confirm")
-                                        input()
+                                        stateConfirm(critical="drowsy")
                                 elif(drowsyDegree == 75):
                                     playsound("data/sounds/"+beepSounds['medium'])
                                 elif(drowsyDegree == 50):
@@ -289,3 +304,4 @@ def main(opt):
 if __name__ == "__main__":
     opt = parse_opt()
     main(opt)
+
