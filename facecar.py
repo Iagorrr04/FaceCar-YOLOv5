@@ -96,7 +96,8 @@ def run(
     model.warmup(imgsz=(1 if pt else bs, 3, *imgsz))  # warmup
     dt, seen = [0.0, 0.0, 0.0], 0
     closedEyesFrames = 0 # must be declared here to work.
-    drowsyDegree = 50
+    drowsyDegree = 0
+    severeDrowsyPoints = 0
     beepSounds = { "low" : "high_pich_beep.mp3", "medium" : "buzzer_medium_beep.mp3", "high" : "buzzer_low_beep.mp3"}
     for path, im, im0s, vid_cap, s in dataset:
         t1 = time_sync()
@@ -172,10 +173,17 @@ def run(
                                 # Sound alert if drowsy for too long.
                                 if(drowsyDegree == 100):
                                     playsound("data/sounds/"+beepSounds['high'])
+                                    severeDrowsyPoints += 1
+                                    if(severeDrowsyPoints >= 4):
+                                        print("You are not in conditions to drive, pleae confirm")
+                                        input()
                                 elif(drowsyDegree == 75):
                                     playsound("data/sounds/"+beepSounds['medium'])
                                 elif(drowsyDegree == 50):
                                     playsound("data/sounds/"+beepSounds['low'])
+                                elif(drowsyDegree < 50):
+                                    severeDrowsyPoints = 0
+
 
                             elif(names[int(c)] == "awake"):
                                 drowsyDegree -= 1
@@ -226,7 +234,7 @@ def run(
                     vid_writer[i].write(im0)
 
         # Print time (inference-only)
-        LOGGER.info(f'{s}Done. Closed eyes frames: {closedEyesFrames}. drowsyDegree: {drowsyDegree}. ({t3 - t2:.3f}s).')
+        LOGGER.info(f'{s}Done. Closed eyes frames: {closedEyesFrames}. drowsyDegree: {drowsyDegree}. Severe Drwosy: {severeDrowsyPoints}. ({t3 - t2:.3f}s).')
 
     # Print results
     t = tuple(x / seen * 1E3 for x in dt)  # speeds per image
