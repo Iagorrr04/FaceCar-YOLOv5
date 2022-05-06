@@ -8,6 +8,9 @@
 
 <p align="center">    Our main goal is to simulate an app or program that could prevent the driver to fall sleep, or keep driving in several fadigue, tiredness, drosy and any related state that could induce a possibly traffic accident. Using the <a href="https://github.com/ultralytics/yolov5">YOLOv5</a> and python algorithms to detect the driver state and take the due actions to reach this goal.</p>
 
+<div align="center">
+    <img src="https://github.com/Iagorrr04/FaceCar-YOLOv5/blob/master/images/example.jpeg" height="30%">
+</div>
 
 <h2 align="center">About YOLOv5</h2>
 <p align="center"> <a href="https://github.com/ultralytics/yolov5">YOLOv5 🚀</a> is a family of object detection architectures and models pretrained on the COCO dataset, and represents <a href="https://ultralytics.com">Ultralytics</a>
