@@ -1,0 +1,5 @@
+train: ../train/images
+val: ../train/images
+
+nc: 9
+names: ['awake', 'close_eye', 'close_mouth', 'drowsy', 'glassses', 'mask', 'open_eye', 'open_mouth', 'sunglasses']
