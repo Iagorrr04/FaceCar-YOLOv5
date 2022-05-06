@@ -53,14 +53,16 @@
 First make sure you have git, pip, and <a href="https://www.python.org/">Python>=3.7.0</a>, than simply run the following commands.
 
 ```bash
-# Clone our repo and install prerequisitesl
+# Clone our repo and install the pre requisites.
 git clone https://github.com/Iagorrr04/FaceCar-YOLOv5
 cd FaceCar-YOLOv5
 pip install -r requirements.txt
 
 # Run the algorithm !
-python3 facecar.py --img 640 --weights runs/train/medium/weights/best.pt --source 0 --conf 0.9 --hide-conf --line-thickness 1 --max-det 10
-                                                  small # to less resource consumption.
+
+# Less hardaware consumption
+python3 facecar.py --img 640 --weights runs/train/small/weights/best.pt --source 0 --conf 0.821 --hide-conf --line-thickness 1 --max-det 6 --facecar
+
 ```
 
 <h3>Or try it at Google Collab ! <img></img></h3>
