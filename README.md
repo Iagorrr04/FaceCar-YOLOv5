@@ -80,6 +80,6 @@ python3 facecar.py --img 640 --weights runs/train/small/weights/best.pt --source
 <p align="center">In order to sovle this would be necessary to collect more data so we opened our dataset to be collaborative, simply go through our instructions at Google Collab to contribute.</p>
 <div align="center">
     <a href="https://colab.research.google.com/github/Iagorrr04/FaceCar-YOLOv5/blob/master/datasetContribution.ipynb" >
-        <img src="https://colab.research.google.com/assets/colab-badge.svg\" alt="Contribute at collab\"/>
+        <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Contribute at collab"/>
     </a>
 </div>
