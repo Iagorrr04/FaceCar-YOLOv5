@@ -73,3 +73,13 @@ python3 facecar.py --img 640 --weights runs/train/small/weights/best.pt --source
     </a>
 
 </div>
+
+<h2 align="center">Contributing to our dataset</h2>
+<p align="center">As there is not so much free copyright images in the context we need, our dataset become relatively small, and not so much diversified, because we used or own photos to train it, generating an algorithm with less precion than the usual.</p>
+
+<p align="center">In order to sovle this would be necessary to collect more data so we opened our dataset to be collaborative, simply go through our instructions at Google Collab to contribute.</p>
+<div align="center">
+    <a href="https://colab.research.google.com/github/Iagorrr04/FaceCar-YOLOv5/blob/master/datasetContribution.ipynb" >
+        <img src="https://colab.research.google.com/assets/colab-badge.svg\" alt="Contribute at collab\"/>
+    </a>
+</div>
