@@ -6,7 +6,7 @@
 <img src="https://github.com/Iagorrr04/FaceCar-YOLOv5/blob/master/images/unb_logo.png"  width="20%">
 </div>
 
-<p align="center">    Our main goal is to simulate an app or program that could prevent the driver to fall sleep, or keep driving in several fadigue, tiredness, drosy and any related state that could induce a possibly traffic accident. Using the <a href="https://github.com/ultralytics/yolov5">YOLOv5</a> and python algorithms to detect the driver state and take the due actions to reach this goal.</p>
+<p align="center">    Our main goal is to simulate an app or program that could prevent the driver to fall sleep, or keep driving in several fadigue, tiredness, drosy and any related state that could induce a possibly traffic accident. Using the <a href="https://github.com/ultralytics/yolov5">YOLOv5</a> and python algorithms to detect the driver state and take the due actions to reach this goal. For more information regarding the development of the project, check the IEEE relatory : <a href="https://www.overleaf.com/read/npdvvfcgrrdx">FaceCar</a></p>
 
 <div align="center">
     <img src="https://github.com/Iagorrr04/FaceCar-YOLOv5/blob/master/images/example.jpeg" height="5%" width="20%">
